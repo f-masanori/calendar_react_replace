@@ -1,21 +1,24 @@
 import { useState, useEffect } from 'react';
-// import firebase from "../firebase";
+import firebase from '../firebase';
 // import { route } from "preact-router";
 
 export const useUser = (): {
-  user: null;
+  user: firebase.User | null;
   login: () => Promise<void>;
   logout: () => Promise<void>;
 } => {
-  const [user, setUser] = useState(null);
-  useEffect(async (): any => {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
-    });
+  const [user, setUser] = useState<firebase.User | null>(null);
+  useEffect(() => {
+    const verificate = async () => {
+      firebase.auth().onAuthStateChanged(loginUser => {
+        if (loginUser) {
+          setUser(loginUser);
+        } else {
+          setUser(null);
+        }
+      });
+    };
+    verificate();
   });
 
   const login = async () => {
@@ -26,7 +29,7 @@ export const useUser = (): {
   const logout = async () => {
     await firebase.logout();
     setUser(null);
-    route('/');
+    // route('/');
   };
 
   return { user, login, logout };

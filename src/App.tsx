@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-key, react/jsx-props-no-spreading, jsx-a11y/alt-text */
 import React, { Component } from 'react';
-import './App.css';
 import { HashRouter as Router, Route, Link } from 'react-router-dom';
 import { Redirect, Switch } from 'react-router';
 import Login from './component/Login';

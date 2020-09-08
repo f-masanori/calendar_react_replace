@@ -1,5 +1,5 @@
-import firebase from "firebase/app";
-import "firebase/auth";
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_APIKEY,
@@ -10,21 +10,26 @@ const firebaseConfig = {
 // see: GitHub認証の統合 https://firebase.google.com/docs/auth/web/github-auth?hl=ja
 const githubProvider = new firebase.auth.GithubAuthProvider();
 
-const FirebaseFactory = () => {
+const FirebaseFactory = (): {
+  signup: (
+    email: string,
+    password: string,
+  ) => Promise<firebase.auth.UserCredential>;
+  auth: () => firebase.auth.Auth;
+  login: () => Promise<firebase.auth.UserCredential>;
+  logout: () => Promise<void>;
+} => {
   firebase.initializeApp(firebaseConfig);
-  let auth = firebase.auth();
+  const auth = firebase.auth();
+
   return {
-    auth() {
-      return auth;
-    },
+    signup: (email: string, password: string) =>
+      auth.createUserWithEmailAndPassword(email, password),
+    auth: () => auth,
 
-    login() {
-      return auth.signInWithPopup(githubProvider);
-    },
+    login: () => auth.signInWithPopup(githubProvider),
 
-    logout() {
-      return auth.signOut();
-    }
+    logout: () => auth.signOut(),
   };
 };
 
