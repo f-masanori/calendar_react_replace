@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import firebase from '../firebase';
 
 export const useLoginForm = (): {
@@ -6,12 +7,14 @@ export const useLoginForm = (): {
   handleEmail: (e: string) => void;
   password: string;
   handlePassword: (p: string) => void;
+  submitLoginForm: (h: any) => void;
 } => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   const handleEmail = (e: string) => {
     console.log(e);
+    // 必要であればバリデーション処理
     setEmail(e);
   };
 
@@ -19,5 +22,11 @@ export const useLoginForm = (): {
     setPassword(p);
   };
 
-  return { email, handleEmail, password, handlePassword };
+  const submitLoginForm = (history: any) => {
+    // const history = useHistory();
+    history.push('/');
+    console.log('submit処理');
+  };
+
+  return { email, handleEmail, password, handlePassword, submitLoginForm };
 };

@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { HashRouter as Router, Route, Link } from 'react-router-dom';
 import { Redirect, Switch } from 'react-router';
 import Login from './component/Login';
+import Home from './component/Home';
+import 'semantic-ui-css/semantic.min.css';
 
 const App = () => {
   return (
@@ -12,7 +14,7 @@ const App = () => {
         <Router>
           <Switch>
             <Route exact path="/login" component={Login} />
-            <Route exact path="/" component={Login} />
+            <Route exact path="/" component={Home} />
           </Switch>
         </Router>
       </header>
