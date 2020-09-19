@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { withRouter } from 'react-router';
 import { Container, Button, Checkbox, Form } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
-import { useLoginForm } from '../hooks/useLoginForm';
+import { useLoginForm } from '../../hooks/useLoginForm';
 
 const Login = (): JSX.Element => {
   const {

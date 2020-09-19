@@ -24,7 +24,7 @@ export const useLoginForm = (): {
 
   const submitLoginForm = (history: any) => {
     // const history = useHistory();
-    history.push('/');
+    history.push('/calendar');
     console.log('submit処理');
   };
 
