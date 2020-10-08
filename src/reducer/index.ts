@@ -1,15 +1,13 @@
 import { combineReducers } from 'redux';
-import { githubReducer, GithubState } from './reducer';
-import { calendarReducer, CalendarState } from './calendar';
+import { LoginUserReducer } from './loginUser';
+import { LoginUserState } from '../models/redux';
 
 export interface ConbineState {
-  github: GithubState;
-  calendar: CalendarState;
+  loginUser: LoginUserState;
 }
 
 const rootReducer = combineReducers({
-  github: githubReducer,
-  calendar: calendarReducer,
+  loginUser: LoginUserReducer,
 });
 
 export default rootReducer;

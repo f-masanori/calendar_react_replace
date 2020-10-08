@@ -29,3 +29,6 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# firebase config
+src/config/*
+!src/config/example*

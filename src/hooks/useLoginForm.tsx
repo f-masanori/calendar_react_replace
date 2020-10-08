@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import firebase from '../firebase';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../actionCreaters/authentication';
 
 export const useLoginForm = (): {
   email: string;
@@ -11,7 +11,8 @@ export const useLoginForm = (): {
 } => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
+  const reduxState = useSelector(state => state);
+  const dispatch = useDispatch();
   const handleEmail = (e: string) => {
     console.log(e);
     // 必要であればバリデーション処理
@@ -23,8 +24,7 @@ export const useLoginForm = (): {
   };
 
   const submitLoginForm = (history: any) => {
-    // const history = useHistory();
-    history.push('/calendar');
+    dispatch(login.start({ email, password }));
     console.log('submit処理');
   };
 
