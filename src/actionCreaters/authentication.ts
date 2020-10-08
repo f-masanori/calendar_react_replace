@@ -38,8 +38,9 @@ export const signUp = {
 };
 
 export const confirmLogind = {
-  start: () => ({
+  start: (params: any) => ({
     type: actions.CONFIRM_LOGIND_START,
+    payload: params,
   }),
 
   succeed: (result: any) => ({

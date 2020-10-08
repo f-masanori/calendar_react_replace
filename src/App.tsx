@@ -15,26 +15,16 @@ import { confirmLogind } from './actionCreaters/authentication';
 const App = () => {
   const loginUserState = useSelector((state: ConbineState) => state.loginUser);
   const dispatch = useDispatch();
-  if (loginUserState.uid === '') {
-    console.log(loginUserState);
+
+  useEffect(() => {
     console.log('loginUserState');
 
-    dispatch(confirmLogind.start());
-  }
-  // useEffect(() => {
-  //   firebase.auth().onAuthStateChanged(function(user) {
-  //     if (user) {
-  //       console.log(1);
-  //       console.log(user.uid);
-  //       console.log(user.providerData);
-  //       // User is signed in.
-  //     } else {
-  //       console.log(2);
-
-  //       // No user is signed in.
-  //     }
-  //   });
-  // }, [loginUserState.uid]);
+    if (loginUserState.uid === '') {
+      console.log(loginUserState);
+      console.log('loginUserState');
+      dispatch(confirmLogind.start(1));
+    }
+  }, []);
 
   return (
     <div className="App">
@@ -44,7 +34,12 @@ const App = () => {
           <Switch>
             <Route exact path="/login" component={Login} />
             <Route exact path="/calendar" component={Calendar} />
-            <PrivateRoute exact path="/" component={Calendar} />
+            <PrivateRoute
+              exact
+              path="/"
+              component={Calendar}
+              uid={loginUserState.uid}
+            />
           </Switch>
         </Router>
       </header>

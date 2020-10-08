@@ -28,9 +28,11 @@ export const LoginUserReducer: Reducer<LoginUserState, AuthenticationAction> = (
       };
     case actions.LOGIN_SUCCEED:
       console.log('reducer LOGIN_SUCCEED');
+      console.log(action);
 
       return {
         ...state,
+        uid: action.payload,
         isLoading: false,
       };
     case actions.CONFIRM_LOGIND_START:
@@ -43,10 +45,11 @@ export const LoginUserReducer: Reducer<LoginUserState, AuthenticationAction> = (
       };
     case actions.CONFIRM_LOGIND_SUCCEED:
       console.log('reducer CONFIRM_LOGIND_SUCCEED');
+      console.log(action.payload);
 
       return {
         ...state,
-        // uid: (action as ReturnType<typeof confirmLogind.succeed>).payload.uid,
+        uid: (action as ReturnType<typeof confirmLogind.succeed>).payload.uid,
         isLoading: false,
       };
     default: {

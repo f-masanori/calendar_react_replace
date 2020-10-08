@@ -4,5 +4,7 @@ import { runLogin, runConfirmLogind } from './authentication';
 
 export default function* rootSaga() {
   yield takeEvery(actions.LOGIN_START, runLogin);
+  // yield takeEvery(actions.LOGIN_START, runLogin);
+
   yield takeEvery(actions.CONFIRM_LOGIND_START, runConfirmLogind);
 }

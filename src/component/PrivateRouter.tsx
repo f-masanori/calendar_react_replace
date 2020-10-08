@@ -10,7 +10,8 @@ const PrivateRoute = ({
   component: any;
 }) => {
   let Component: any;
-  if (localStorage.getItem('uid') === '') {
+  console.log(options.uid);
+  if (options.uid === '' || options.uid === 'pending') {
     console.log('未ログイン');
     Component = Login;
   } else {

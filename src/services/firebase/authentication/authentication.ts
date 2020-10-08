@@ -74,7 +74,7 @@ export const signOut = () => {
 export const isLogin = () => {
   return new Promise(resolve => {
     const user: firebase.User | null = firebase.auth().currentUser;
-
+    console.log(user);
     if (user) {
       resolve(user);
     } else {
