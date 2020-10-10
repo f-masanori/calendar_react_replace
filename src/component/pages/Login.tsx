@@ -2,7 +2,9 @@ import React, { useContext } from 'react';
 import { withRouter } from 'react-router';
 import { Container, Button, Checkbox, Form } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLoginForm } from '../../hooks/useLoginForm';
+import { getAllEvent } from '../../actionCreaters/event';
 
 const Login = (): JSX.Element => {
   const {
@@ -15,6 +17,11 @@ const Login = (): JSX.Element => {
   const history = useHistory();
   const submitForm = () => {
     submitLoginForm(history);
+  };
+  const reduxState = useSelector(state => state);
+  const dispatch = useDispatch();
+  const test = () => {
+    dispatch(getAllEvent.start({ uid: 'hoge' }));
   };
 
   return (
@@ -38,6 +45,7 @@ const Login = (): JSX.Element => {
         </Form.Field>
         <Button type="submit">Submit</Button>
       </Form>
+      <Button onClick={test}>testevent</Button>
     </Container>
   );
 };

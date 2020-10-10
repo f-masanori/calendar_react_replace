@@ -46,17 +46,43 @@ export const firebaseLogin = ({
     console.log(password);
     firebase
       .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(res => {
-        console.log(res.user?.uid);
-        resolve(res.user?.uid);
-      })
-      .catch(error => {
+      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+      .then(() => firebase.auth().signInWithEmailAndPassword(email, password))
+      .then(res => resolve(res.user?.uid))
+      .catch(function(error) {
         alert(error);
+        const errorCode = error.code;
+        const errorMessage = error.message;
       });
+    // firebase
+    //   .auth()
+    //   .signInWithEmailAndPassword(email, password)
+    //   .then(res => {
+    //     console.log(res.user?.uid);
+    //     resolve(res.user?.uid);
+    //   })
+    //   .catch(error => {
+    //     alert(error);
+    //   });
   });
 };
-
+export const firebaseDeleteCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const user = firebase.auth().currentUser;
+    if (user) {
+      user
+        .delete()
+        .then(() => {
+          console.warn('fail singup process and firebase`s user deleted');
+          resolve('success');
+        })
+        .catch(err => {
+          console.error(err);
+          reject(err);
+        });
+    }
+  });
+};
 export const signOut = () => {
   return new Promise((resolve, reject) => {
     firebase

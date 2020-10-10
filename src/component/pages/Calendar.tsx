@@ -18,6 +18,9 @@ const Calendar = (): JSX.Element => {
   useEffect(() => {
     console.log('useEffect end');
   }, []);
+  const openModalForAddEvent = (props: any) => {
+    const date = props.dateStr;
+  };
 
   return (
     <FullCalendar
@@ -25,6 +28,7 @@ const Calendar = (): JSX.Element => {
       selectable
       selectMirror
       dateClick={info => {
+        openModalForAddEvent(info);
         console.log(info);
       }}
       // eventClick={(info) => { editEvent(info) }}

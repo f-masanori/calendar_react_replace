@@ -2,7 +2,9 @@ import React, { useContext } from 'react';
 import { withRouter } from 'react-router';
 import { Container, Button, Checkbox, Form } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLoginForm } from '../../hooks/useLoginForm';
+import { signUp } from '../../actionCreaters/authentication';
 
 const Login = (): JSX.Element => {
   const {
@@ -13,8 +15,11 @@ const Login = (): JSX.Element => {
     submitLoginForm,
   } = useLoginForm();
   const history = useHistory();
+  const [password, setPassword] = useState<string>('');
+  const reduxState = useSelector(state => state);
+  const dispatch = useDispatch();
   const submitForm = () => {
-    submitLoginForm(history);
+    dispatch(signUp.start({ email, password }));
   };
 
   return (

@@ -5,7 +5,12 @@ export interface LoginUserState {
   isLoading: boolean;
   error?: any;
 }
-export interface EventContext {
+export interface CalendarEventsState {
+  events: CalendarEvent[];
+  isLoading: boolean;
+  error?: any;
+}
+export interface CalendarEvent {
   id: number | undefined;
   title: string | undefined;
   date: string | undefined;
