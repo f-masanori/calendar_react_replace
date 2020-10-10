@@ -5,45 +5,49 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Switch } from 'react-router';
 import { ConbineState } from './reducer/index';
 import Login from './component/pages/Login';
+import SignUp from './component/pages/SignUp';
+
 import Home from './component/pages/Home';
+import { LoadingScreen } from './component/pages/Loading';
 import Calendar from './component/pages/Calendar';
 import 'semantic-ui-css/semantic.min.css';
 import firebase from './services/firebase/firebase';
 import PrivateRoute from './component/PrivateRouter';
 import { confirmLogind } from './actionCreaters/authentication';
+import Header from './component/organisms/Header';
 
 const App = () => {
   const loginUserState = useSelector((state: ConbineState) => state.loginUser);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log('loginUserState');
+  // useEffect(() => {
+  //   console.log('loginUserState');
 
-    if (loginUserState.uid === '') {
-      console.log(loginUserState);
-      console.log('loginUserState');
-      dispatch(confirmLogind.start(1));
-    }
-  }, []);
+  //   if (loginUserState.uid === '') {
+  //     console.log(loginUserState);
+  //     console.log('loginUserState');
+  //     dispatch(confirmLogind.start(1));
+  //   }
+  // }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>Hello, !</p>
-        <Router>
-          <Switch>
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/calendar" component={Calendar} />
-            <PrivateRoute
-              exact
-              path="/"
-              component={Calendar}
-              uid={loginUserState.uid}
-            />
-          </Switch>
-        </Router>
-      </header>
-    </div>
+    <>
+      <Router>
+        <Header />
+        <LoadingScreen />
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/" component={Home} />
+          <PrivateRoute
+            exact
+            path="/calendar"
+            component={Calendar}
+            uid={loginUserState.uid}
+          />
+        </Switch>
+      </Router>
+    </>
   );
 };
 

@@ -1,4 +1,3 @@
-import { resolve } from 'path';
 import firebase from '../firebase';
 
 export const returnPromise = (id: any) => {
@@ -46,24 +45,13 @@ export const firebaseLogin = ({
     console.log(password);
     firebase
       .auth()
-      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
-      .then(() => firebase.auth().signInWithEmailAndPassword(email, password))
-      .then(res => resolve(res.user?.uid))
-      .catch(function(error) {
+      .signInWithEmailAndPassword(email, password)
+      .then(res => resolve(res.user))
+      .catch(error => {
         alert(error);
         const errorCode = error.code;
         const errorMessage = error.message;
       });
-    // firebase
-    //   .auth()
-    //   .signInWithEmailAndPassword(email, password)
-    //   .then(res => {
-    //     console.log(res.user?.uid);
-    //     resolve(res.user?.uid);
-    //   })
-    //   .catch(error => {
-    //     alert(error);
-    //   });
   });
 };
 export const firebaseDeleteCurrentUser = () => {
@@ -83,7 +71,7 @@ export const firebaseDeleteCurrentUser = () => {
     }
   });
 };
-export const signOut = () => {
+export const firebaseSignOut = () => {
   return new Promise((resolve, reject) => {
     firebase
       .auth()

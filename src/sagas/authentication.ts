@@ -1,8 +1,14 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { confirmLogind, login, signUp } from '../actionCreaters/authentication';
+import {
+  confirmLogind,
+  login,
+  signUp,
+  signOut,
+} from '../actionCreaters/authentication';
 import {
   firebaseLogin,
   firebaseSignUp,
+  firebaseSignOut,
   isLogin,
   firebaseDeleteCurrentUser,
 } from '../services/firebase/authentication/authentication';
@@ -13,13 +19,16 @@ export function* runLogin(action: ReturnType<typeof login.start>) {
   const { email, password } = action.payload;
   try {
     console.log('runLogin');
-    const resultData = yield call(firebaseLogin, { email, password });
-    const resultData2 = yield call(registerUser, {
+    const fUser: firebase.User = yield call(firebaseLogin, {
       email,
-      uid: resultData.uid,
+      password,
     });
+    console.log(fUser);
 
-    yield put(login.succeed(resultData));
+    localStorage.setItem('uid', fUser.uid);
+    console.log('localStorage.setItem(, fUser.uid);');
+
+    yield put(login.succeed({ uid: fUser.uid }));
   } catch (error) {
     console.error(error);
     yield put(login.fail({ err: 1 }, error));
@@ -30,18 +39,33 @@ export function* runSignUp(action: ReturnType<typeof signUp.start>) {
   const { email, password } = action.payload;
   try {
     console.log('runSignUp');
-    const resultData = yield call(firebaseSignUp, { email, password });
-    const resultData2 = yield call(registerUser, {
+    const fUser: firebase.User = yield call(firebaseSignUp, {
       email,
-      uid: resultData.uid,
+      password,
     });
-
-    yield put(login.succeed(resultData));
+    yield call(registerUser, {
+      email,
+      uid: fUser.uid,
+    });
+    localStorage.setItem('uid', fUser.uid);
+    yield put(signUp.succeed({ uid: fUser.uid }));
   } catch (error) {
     console.error(error);
     firebaseDeleteCurrentUser();
 
-    yield put(login.fail({ err: 1 }, error));
+    yield put(signUp.fail({ err: 1 }, error));
+  }
+}
+
+export function* runSignOut(action: ReturnType<typeof signUp.start>) {
+  try {
+    console.log('runSignOut');
+    const flag = yield call(firebaseSignOut);
+    localStorage.setItem('uid', '');
+    yield put(signOut.succeed());
+  } catch (error) {
+    console.error(error);
+    yield put(signOut.fail(error));
   }
 }
 
@@ -52,6 +76,8 @@ export function* runConfirmLogind(
   try {
     console.log('isLogin');
     const currentUser: firebase.User | null = yield call(isLogin);
+    console.log(currentUser);
+
     const uid = currentUser ? currentUser.uid : '';
     console.log(uid);
 

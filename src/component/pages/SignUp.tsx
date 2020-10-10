@@ -1,32 +1,32 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { withRouter } from 'react-router';
 import { Container, Button, Checkbox, Form } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLoginForm } from '../../hooks/useLoginForm';
 import { signUp } from '../../actionCreaters/authentication';
+import { ConbineState } from '../../reducer/index';
 
-const Login = (): JSX.Element => {
-  const {
-    email,
-    handleEmail,
-    password,
-    handlePassword,
-    submitLoginForm,
-  } = useLoginForm();
-  const history = useHistory();
-  const [password, setPassword] = useState<string>('');
-  const reduxState = useSelector(state => state);
+const SignUp = (): JSX.Element => {
+  const { email, handleEmail, password, handlePassword } = useLoginForm();
   const dispatch = useDispatch();
+  const history = useHistory();
+  const loginUserState = useSelector((state: ConbineState) => state.loginUser);
   const submitForm = () => {
     dispatch(signUp.start({ email, password }));
   };
+  useEffect(() => {
+    console.log('signup useEffect');
+    if (loginUserState.uid) {
+      history.push('/calendar');
+    }
+  }, []);
 
   return (
     <Container>
       <Form onSubmit={submitForm}>
         <Form.Field>
-          <label>Email</label>
+          <p>Email</p>
           <input
             type="text"
             value={email}
@@ -34,7 +34,7 @@ const Login = (): JSX.Element => {
           />
         </Form.Field>
         <Form.Field>
-          <label>Password</label>
+          <p>Password</p>
           <input
             type="text"
             value={password}
@@ -47,4 +47,4 @@ const Login = (): JSX.Element => {
   );
 };
 
-export default withRouter(Login);
+export default withRouter(SignUp);

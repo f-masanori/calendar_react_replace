@@ -7,9 +7,9 @@ export const login = {
     payload: params,
   }),
 
-  succeed: (result: LoginUserState) => ({
+  succeed: ({ uid }: { uid: string }) => ({
     type: actions.LOGIN_SUCCEED,
-    payload: result,
+    payload: { uid },
   }),
 
   fail: (params: any, error: any) => ({
@@ -25,15 +25,29 @@ export const signUp = {
     payload: params,
   }),
 
-  succeed: (result: LoginUserState) => ({
+  succeed: ({ uid }: { uid: string }) => ({
     type: actions.SIGNUP_SUCCEED,
-    payload: result,
+    payload: { uid },
   }),
 
   fail: (params: any, error: any) => ({
     type: actions.SIGNUP_FAIL,
     payload: { params, error },
     error: true,
+  }),
+};
+export const signOut = {
+  start: () => ({
+    type: actions.SIGNOUT_START,
+  }),
+
+  succeed: () => ({
+    type: actions.SIGNOUT_SUCCEED,
+  }),
+
+  fail: (error: any) => ({
+    type: actions.SIGNOUT_FAIL,
+    error,
   }),
 };
 
@@ -43,9 +57,9 @@ export const confirmLogind = {
     payload: params,
   }),
 
-  succeed: (result: any) => ({
+  succeed: ({ uid }: { uid: string }) => ({
     type: actions.CONFIRM_LOGIND_SUCCEED,
-    payload: result,
+    payload: { uid },
   }),
 
   fail: (params: any, error: any) => ({
@@ -54,6 +68,11 @@ export const confirmLogind = {
     error: true,
   }),
 };
+export const setLoginUserState = ({ uid }: { uid: string }) => ({
+  type: actions.SET_LOGIN_USER_STATE,
+  payload: { uid },
+  error: true,
+});
 export type AuthenticationAction =
   | ReturnType<typeof login.start>
   | ReturnType<typeof login.succeed>

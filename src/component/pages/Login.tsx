@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useEffect } from 'react';
 import { withRouter } from 'react-router';
 import { Container, Button, Checkbox, Form } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLoginForm } from '../../hooks/useLoginForm';
 import { getAllEvent } from '../../actionCreaters/event';
+import { ConbineState } from '../../reducer/index';
 
 const Login = (): JSX.Element => {
   const {
@@ -18,11 +19,17 @@ const Login = (): JSX.Element => {
   const submitForm = () => {
     submitLoginForm(history);
   };
-  const reduxState = useSelector(state => state);
+  const loginUserState = useSelector((state: ConbineState) => state.loginUser);
   const dispatch = useDispatch();
   const test = () => {
     dispatch(getAllEvent.start({ uid: 'hoge' }));
   };
+  useEffect(() => {
+    console.log('signup useEffect');
+    if (loginUserState.uid) {
+      history.push('/calendar');
+    }
+  });
 
   return (
     <Container>

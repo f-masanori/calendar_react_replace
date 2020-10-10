@@ -5,11 +5,13 @@ import {
   runConfirmLogind,
   runGetAllEvent,
   runSignUp,
+  runSignOut,
 } from './authentication';
 
 export default function* rootSaga() {
   yield takeEvery(actions.LOGIN_START, runLogin);
   yield takeEvery(actions.SIGNUP_START, runSignUp);
+  yield takeEvery(actions.SIGNOUT_START, runSignOut);
 
   yield takeEvery(actions.GET_ALL_EVENTS_START, runGetAllEvent);
 
