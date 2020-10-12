@@ -8,7 +8,7 @@ import Login from './component/pages/Login';
 import SignUp from './component/pages/SignUp';
 
 import Home from './component/pages/Home';
-import { LoadingScreen } from './component/pages/Loading';
+import { LoadingScreen } from './component/organisms/Loading';
 import Calendar from './component/pages/Calendar';
 import 'semantic-ui-css/semantic.min.css';
 import firebase from './services/firebase/firebase';
@@ -20,21 +20,12 @@ const App = () => {
   const loginUserState = useSelector((state: ConbineState) => state.loginUser);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   console.log('loginUserState');
-
-  //   if (loginUserState.uid === '') {
-  //     console.log(loginUserState);
-  //     console.log('loginUserState');
-  //     dispatch(confirmLogind.start(1));
-  //   }
-  // }, []);
-
   return (
     <>
       <Router>
         <Header />
-        <LoadingScreen />
+        {loginUserState.isLoading && <LoadingScreen />}
+
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={SignUp} />
