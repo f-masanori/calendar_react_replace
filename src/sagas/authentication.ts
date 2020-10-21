@@ -86,16 +86,3 @@ export function* runConfirmLogind(
     yield put(confirmLogind.fail({ err: 1 }, error));
   }
 }
-
-export function* runGetAllEvent(action: ReturnType<typeof getAllEvent.start>) {
-  console.log(action);
-  try {
-    console.log('getevetn');
-    const data = yield call(getAllEventByAPI, action.payload.uid);
-    console.log(data);
-
-    // yield put(getAllEvent.succeed({ "uid" }));
-  } catch (error) {
-    yield put(getAllEvent.fail({ err: 1 }, error));
-  }
-}

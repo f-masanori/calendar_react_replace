@@ -13,15 +13,14 @@ const customStyles: any = {
     border: '1px solid #ccc',
     borderRadius: '4px',
     bottom: 'auto',
-    left: '50%',
     outline: 'none',
     overflow: 'auto',
     webkitOverflowScrolling: 'touch',
     padding: '20px',
     position: 'absolute',
-    right: 'auto',
-    top: '50%',
-    transform: 'translate(50%)'
+    top: '30%',
+    transform: 'translate(50%)',
+    width: '50%'
     // transform: 'translate(-50%,-50%)',
   },
 };
@@ -38,6 +37,14 @@ export const NomalModal: React.FC<Props> = ({
   onClick,
   closeModal,
 }: Props) => {
+  const modalClosebutton: any = {
+    position: 'absolute',
+    top: '14px',
+    right: '16px',
+    fontSize: '24px',
+    cursor: 'pointer',
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -46,12 +53,14 @@ export const NomalModal: React.FC<Props> = ({
       style={customStyles}
       contentLabel="Example Modal"
     >
-      {children}
+      <label style={modalClosebutton} className="close_button">
+        ✖️
+      </label>
       <h2>Hello</h2>
+      {children}
       <button type="button" onClick={closeModal}>
         close
       </button>
-      <div>I am a modal</div>
     </Modal>
   );
 };
