@@ -20,7 +20,7 @@ _____________
 ### 使用技術
 
 - 言語 : Typescript
-- フレームワーク： React,, FullCalendar
+- ライブラリ： React,Redux,Redux-saga,react-router,styled-components,FullCalendar
 - ツール : Firebase Authentication
 
 
@@ -39,7 +39,10 @@ _____________
 4. コンポーネントの再利用化を促進するため、UI部分には、アトミックデザインを導入した。
 5. 学習のためStyled-componentを導入した。
 
+### これからしたいこと
 
+1. まずは機能を完成させる
+2. ライブラリを使わずに、カレンダー部分のUIを実装してみたい(CSSの学習)
 
 ### ESlint,prettierについて
 
