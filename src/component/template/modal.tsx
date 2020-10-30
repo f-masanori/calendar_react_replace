@@ -53,7 +53,11 @@ export const NomalModal: React.FC<Props> = ({
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <label style={modalClosebutton} className="close_button">
+      <label
+        style={modalClosebutton}
+        className="close_button"
+        onClick={closeModal}
+      >
         ✖️
       </label>
       <h2>Hello</h2>
