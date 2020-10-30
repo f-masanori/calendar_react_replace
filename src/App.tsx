@@ -29,8 +29,11 @@ const App = () => {
   const [isVerified, setIsVerified] = useState(false);
   const [isLogined, setIsLogined] = useState(false);
   const UID = useSelector((state: ConbineState) => state.loginUser.uid);
+  console.log(UID);
+
   useEffect(() => {
     console.log('priveate router useeffect');
+    console.log(UID);
     if (UID === '') {
       firebase.auth().onAuthStateChanged(User => {
         console.log('call onAuthStateChanged');
@@ -56,7 +59,7 @@ const App = () => {
 
   return (
     <>
-      <Header />
+      <Header UID={UID} />
       {/* {loginUserState.isLoading && <LoadingScreen />} */}
       <Switch>
         <Route exact path="/login" component={Login} />

@@ -30,12 +30,14 @@ type Props = {
   isOpen: boolean;
   onClick: Function;
   closeModal: () => void;
+  title: string;
 };
 export const NomalModal: React.FC<Props> = ({
   children,
   isOpen,
   onClick,
   closeModal,
+  title,
 }: Props) => {
   const modalClosebutton: any = {
     position: 'absolute',
@@ -60,11 +62,8 @@ export const NomalModal: React.FC<Props> = ({
       >
         ✖️
       </label>
-      <h2>Hello</h2>
+      <h2>{title}</h2>
       {children}
-      <button type="button" onClick={closeModal}>
-        close
-      </button>
     </Modal>
   );
 };

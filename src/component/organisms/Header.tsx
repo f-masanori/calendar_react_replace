@@ -9,49 +9,28 @@ import firebase from '../../services/firebase/firebase';
 
 const HeaderGrid = styledComponents.LayoutStyles.Header.Grid;
 const HeaderItem = styledComponents.LayoutStyles.Header.Item;
+interface HeaderProps {
+  UID: string;
+}
 
-const Header: React.FC = () => {
+const Header: React.FC<HeaderProps> = props => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [authChecked, setAuthChecked] = useState(false);
   const [isLogined, setIsLogined] = useState(false);
-  // const UID = useSelector((state: ConbineState) => state.loginUser.uid);
-  // if (UID !== '' && UID !== 'noUser') {
-  //   setIsLogined(true);
-  // }
-  // useEffect(() => {
-  //   if (UID)
-  //     firebase.auth().onAuthStateChanged(user => {
-  //       console.log('call onAuthStateChanged');
-  //       if (user) {
-  //         console.log(user.uid);
-  //         setIsLogined(true);
-  //       } else {
-  //         console.log('not logined');
+  const { UID } = props;
 
-  //         setIsLogined(false);
-  //       }
-  //       setAuthChecked(true);
-  //     });
-  // }, []);
+  useEffect(() => {
+    console.log(props);
+
+    if (UID !== '' && UID !== 'noUser') {
+      setIsLogined(true);
+    }
+  }, [UID]);
 
   return isLogined ? (
     <HeaderGrid>
-      <HeaderItem theme={{ column: '2 / 3' }}>
-        {/* <Button
-          onClick={e => {
-            firebase.auth().onAuthStateChanged(user => {
-              if (user) {
-                console.log(user.uid);
-              } else {
-                console.log('not logined');
-              }
-            });
-          }}
-        >
-          uid確認
-        </Button> */}
-      </HeaderItem>
+      <HeaderItem theme={{ column: '2 / 3' }} />
       <HeaderItem theme={{ column: '3 / 4' }}>
         <Button onClick={e => history.push('/calendar')}>calendar</Button>
       </HeaderItem>
