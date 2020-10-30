@@ -9,7 +9,7 @@ import {
   firebaseLogin,
   firebaseSignUp,
   firebaseSignOut,
-  isLogin,
+  isFBLogined,
   firebaseDeleteCurrentUser,
 } from '../services/firebase/authentication/authentication';
 import { registerUser, getAllEventByAPI } from '../services/backendAPI/event';
@@ -31,6 +31,7 @@ export function* runLogin(action: ReturnType<typeof login.start>) {
     yield put(login.succeed({ uid: fUser.uid }));
   } catch (error) {
     console.error(error);
+
     yield put(login.fail({ err: 1 }, error));
   }
 }
@@ -43,16 +44,21 @@ export function* runSignUp(action: ReturnType<typeof signUp.start>) {
       email,
       password,
     });
+    console.log(fUser.uid);
+
     yield call(registerUser, {
       email,
       uid: fUser.uid,
     });
     localStorage.setItem('uid', fUser.uid);
     yield put(signUp.succeed({ uid: fUser.uid }));
+    console.error('runSignUp try ');
   } catch (error) {
     console.error(error);
-    firebaseDeleteCurrentUser();
+    console.error('signup エラー');
+    alert('signup エラー');
 
+    yield call(firebaseDeleteCurrentUser);
     yield put(signUp.fail({ err: 1 }, error));
   }
 }
@@ -74,8 +80,8 @@ export function* runConfirmLogind(
 ) {
   console.log(action);
   try {
-    console.log('isLogin');
-    const currentUser: firebase.User | null = yield call(isLogin);
+    console.log('isFBLogined');
+    const currentUser: firebase.User | null = yield call(isFBLogined);
     console.log(currentUser);
 
     const uid = currentUser ? currentUser.uid : '';

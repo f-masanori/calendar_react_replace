@@ -68,15 +68,18 @@ export const confirmLogind = {
     error: true,
   }),
 };
-export const setLoginUserState = ({ uid }: { uid: string }) => ({
-  type: actions.SET_LOGIN_USER_STATE,
-  payload: { uid },
-  error: true,
-});
+export const setLoginUserState = {
+  succeed: ({ uid }: { uid: string }) => ({
+    type: actions.SET_LOGIN_USER_STATE,
+    payload: { uid },
+    error: true,
+  }),
+};
 export type AuthenticationAction =
   | ReturnType<typeof login.start>
   | ReturnType<typeof login.succeed>
   | ReturnType<typeof login.fail>
   | ReturnType<typeof confirmLogind.start>
   | ReturnType<typeof confirmLogind.succeed>
-  | ReturnType<typeof confirmLogind.fail>;
+  | ReturnType<typeof confirmLogind.fail>
+  | ReturnType<typeof setLoginUserState.succeed>;

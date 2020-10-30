@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../actionCreaters/authentication';
+import { firebaseLogin } from '../services/firebase/authentication/authentication';
 
 export const useLoginForm = (): {
   email: string;
@@ -15,7 +16,7 @@ export const useLoginForm = (): {
   const dispatch = useDispatch();
   const handleEmail = (e: string) => {
     console.log(e);
-    // 必要であればバリデーション処理
+    /* バリデーション未実装 */
     setEmail(e);
   };
 
@@ -23,9 +24,15 @@ export const useLoginForm = (): {
     setPassword(p);
   };
 
-  const submitLoginForm = (history: any) => {
+  const submitLoginForm = async (history: any) => {
     dispatch(login.start({ email, password }));
-    console.log('submit処理');
+    try {
+      const uid = await firebaseLogin({ email, password });
+      console.log(uid);
+      history.push('/calendar');
+    } catch {
+      /* エラーハンドリング未実装*/
+    }
   };
 
   return { email, handleEmail, password, handlePassword, submitLoginForm };

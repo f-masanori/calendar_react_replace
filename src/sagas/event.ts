@@ -9,7 +9,7 @@ import {
   firebaseLogin,
   firebaseSignUp,
   firebaseSignOut,
-  isLogin,
+  isFBLogined,
   firebaseDeleteCurrentUser,
 } from '../services/firebase/authentication/authentication';
 import { registerUser, getAllEventByAPI } from '../services/backendAPI/event';
@@ -19,7 +19,7 @@ export function* runGetAllEvent(action: ReturnType<typeof getAllEvent.start>) {
   console.log(action);
   try {
     console.log('getevetn');
-    const data = yield call(getAllEventByAPI, action.payload.uid);
+    const data = yield call(getAllEventByAPI);
     console.log(data);
 
     // yield put(getAllEvent.succeed({ "uid" }));

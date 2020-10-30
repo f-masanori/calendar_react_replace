@@ -20,6 +20,21 @@ export const LoginUserReducer: Reducer<LoginUserState, AuthenticationAction> = (
   action: AuthenticationAction,
 ): LoginUserState => {
   switch (action.type) {
+    case actions.SIGNUP_START:
+      console.log('reducer SIGNUP_START');
+
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case actions.SIGNUP_SUCCEED:
+      console.log('reducer SIGNUP_SUCCEED');
+
+      return {
+        ...state,
+        uid: action.payload,
+        isLoading: false,
+      };
     case actions.LOGIN_START:
       console.log('reducer LOGIN_START');
 
@@ -33,7 +48,7 @@ export const LoginUserReducer: Reducer<LoginUserState, AuthenticationAction> = (
 
       return {
         ...state,
-        uid: action.payload,
+        uid: action.payload.uid,
         isLoading: false,
       };
     case actions.CONFIRM_LOGIND_START:
@@ -70,9 +85,11 @@ export const LoginUserReducer: Reducer<LoginUserState, AuthenticationAction> = (
         isLoading: false,
       };
     case actions.SET_LOGIN_USER_STATE:
+      console.log(action.payload);
+
       return {
         ...state,
-        uid: (action as ReturnType<typeof setLoginUserState>).payload.uid,
+        uid: action.payload.uid,
       };
     default: {
       return state;

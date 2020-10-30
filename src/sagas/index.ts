@@ -3,10 +3,10 @@ import * as actions from '../actionCreaters/actions';
 import {
   runLogin,
   runConfirmLogind,
-  runGetAllEvent,
   runSignUp,
   runSignOut,
 } from './authentication';
+import { runGetAllEvent } from './event';
 
 export default function* rootSaga() {
   yield takeEvery(actions.LOGIN_START, runLogin);

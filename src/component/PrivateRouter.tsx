@@ -7,7 +7,7 @@ import {
   confirmLogind,
   setLoginUserState,
 } from '../actionCreaters/authentication';
-import { isLogin } from '../services/firebase/authentication/authentication';
+import { isFBLogined } from '../services/firebase/authentication/authentication';
 import firebase from '../services/firebase/firebase';
 
 const PrivateRoute = ({
@@ -24,12 +24,11 @@ const PrivateRoute = ({
   const loginUserState = useSelector((state: ConbineState) => state.loginUser);
 
   useEffect(() => {
-    console.log('priveate router useeffect');
     firebase.auth().onAuthStateChanged(user => {
       console.log('call onAuthStateChanged');
       if (user) {
         console.log(user);
-        dispatch(setLoginUserState({ uid: user.uid }));
+        // dispatch(setLoginUserState.succeed({ uid: user.uid }));
         setIsLogined(true);
       } else {
         console.log('not logined');
@@ -40,11 +39,10 @@ const PrivateRoute = ({
     });
   }, []);
 
-  return (
-    <Route
-      {...options}
-      component={authChecked && isLogined ? RouteComponent : Login}
-    />
+  return authChecked ? (
+    <Route {...options} component={isLogined ? RouteComponent : Login} />
+  ) : (
+    <div>loading</div>
   );
 };
 

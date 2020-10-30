@@ -6,21 +6,50 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLoginForm } from '../../hooks/useLoginForm';
 import { signUp } from '../../actionCreaters/authentication';
 import { ConbineState } from '../../reducer/index';
+import {
+  registerUser,
+  getAllEventByAPI,
+} from '../../services/backendAPI/event';
+import {
+  firebaseLogin,
+  firebaseSignUp,
+  firebaseSignOut,
+  isFBLogined,
+  firebaseDeleteCurrentUser,
+} from '../../services/firebase/authentication/authentication';
 
 const SignUp = (): JSX.Element => {
   const { email, handleEmail, password, handlePassword } = useLoginForm();
   const dispatch = useDispatch();
   const history = useHistory();
   const loginUserState = useSelector((state: ConbineState) => state.loginUser);
-  const submitForm = () => {
-    dispatch(signUp.start({ email, password }));
-  };
-  useEffect(() => {
-    console.log('signup useEffect');
-    if (loginUserState.uid) {
-      history.push('/calendar');
+  const submitForm = async () => {
+    let flag = true;
+    try {
+      console.log('runSignUp');
+      const uid = await firebaseSignUp({
+        email,
+        password,
+      });
+      console.log(uid);
+
+      await registerUser({
+        email,
+        uid,
+      });
+    } catch (error) {
+      flag = false;
+
+      console.error(error);
+      alert('signup エラー');
+
+      await firebaseDeleteCurrentUser();
+    } finally {
+      if (flag) {
+        history.push('/calendar');
+      }
     }
-  }, []);
+  };
 
   return (
     <Container>

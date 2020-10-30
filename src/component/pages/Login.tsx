@@ -6,6 +6,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLoginForm } from '../../hooks/useLoginForm';
 import { getAllEvent } from '../../actionCreaters/event';
 import { ConbineState } from '../../reducer/index';
+import {
+  registerUser,
+  getAllEventByAPI,
+} from '../../services/backendAPI/event';
+import {
+  firebaseLogin,
+  firebaseSignUp,
+  firebaseSignOut,
+  isFBLogined,
+  firebaseDeleteCurrentUser,
+} from '../../services/firebase/authentication/authentication';
 
 const Login = (): JSX.Element => {
   const {
@@ -16,24 +27,15 @@ const Login = (): JSX.Element => {
     submitLoginForm,
   } = useLoginForm();
   const history = useHistory();
-  const submitForm = () => {
-    submitLoginForm(history);
-  };
   const loginUserState = useSelector((state: ConbineState) => state.loginUser);
   const dispatch = useDispatch();
-  const test = () => {
-    dispatch(getAllEvent.start({ uid: 'hoge' }));
-  };
-  useEffect(() => {
-    console.log('signup useEffect');
-    if (loginUserState.uid) {
-      history.push('/calendar');
-    }
-  });
+
+  console.log('login comp');
 
   return (
     <Container>
-      <Form onSubmit={submitForm}>
+      <p>ログイン</p>
+      <Form>
         <Form.Field>
           <label>Email</label>
           <input
@@ -50,9 +52,8 @@ const Login = (): JSX.Element => {
             onChange={e => handlePassword(e.target.value)}
           />
         </Form.Field>
-        <Button type="submit">Submit</Button>
+        <Button onClick={e => submitLoginForm(history)}>Submit</Button>
       </Form>
-      <Button onClick={test}>testevent</Button>
     </Container>
   );
 };

@@ -16,14 +16,13 @@ export const firebaseSignUp = ({
   email: string;
   password: string;
 }) => {
-  return new Promise((resolve, reject) => {
+  return new Promise<string>((resolve, reject) => {
     console.log(email);
     console.log(password);
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(res => {
-        console.log(res.user?.uid);
         resolve(res.user?.uid);
       })
       .catch(error => {
@@ -40,35 +39,35 @@ export const firebaseLogin = ({
   email: string;
   password: string;
 }) => {
-  return new Promise((resolve, reject) => {
+  return new Promise<string | any>((resolve, reject) => {
     console.log(email);
     console.log(password);
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(res => resolve(res.user))
+      .then(res => resolve(res.user?.uid))
       .catch(error => {
         alert(error);
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        reject(error);
       });
   });
 };
 export const firebaseDeleteCurrentUser = () => {
   return new Promise((resolve, reject) => {
-    const user = firebase.auth().currentUser;
-    if (user) {
-      user
-        .delete()
-        .then(() => {
-          console.warn('fail singup process and firebase`s user deleted');
-          resolve('success');
-        })
-        .catch(err => {
-          console.error(err);
-          reject(err);
-        });
-    }
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        user
+          .delete()
+          .then(() => {
+            console.warn('fail singup process and firebase`s user deleted');
+            resolve('success');
+          })
+          .catch(err => {
+            console.error(err);
+            reject(err);
+          });
+      }
+    });
   });
 };
 export const firebaseSignOut = () => {
@@ -85,8 +84,8 @@ export const firebaseSignOut = () => {
   });
 };
 
-export const isLogin = () => {
-  return new Promise(resolve => {
+export const isFBLogined = () => {
+  return new Promise<firebase.User | null>(resolve => {
     const user: firebase.User | null = firebase.auth().currentUser;
     console.log(user);
     if (user) {
