@@ -10,6 +10,7 @@ import { CalendarEventsState } from '../models/redux';
 
 export const initialState: CalendarEventsState = {
   events: [],
+  nextEventID: 0,
   isLoading: false,
 };
 
@@ -28,10 +29,7 @@ export const EventReducer: Reducer<CalendarEventsState, EventAction> = (
     case actions.GET_ALL_EVENTS_SUCCEED:
       console.log('reducer GET_ALL_EVENTS_SUCCEED');
 
-      return {
-        ...state,
-        isLoading: false,
-      };
+      return (action as ReturnType<typeof getAllEvent.succeed>).payload;
     case actions.GET_ALL_EVENTS_FAIL:
       console.log('reducer GET_ALL_EVENTS_FAIL');
 

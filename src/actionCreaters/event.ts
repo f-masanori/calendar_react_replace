@@ -2,9 +2,8 @@ import * as actions from './actions';
 import { CalendarEventsState } from '../models/redux';
 
 export const getAllEvent = {
-  start: (params: { uid: string }) => ({
+  start: () => ({
     type: actions.GET_ALL_EVENTS_START,
-    payload: params,
   }),
 
   succeed: (result: CalendarEventsState) => ({

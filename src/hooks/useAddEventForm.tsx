@@ -5,18 +5,18 @@ import { firebaseLogin } from '../services/firebase/authentication/authenticatio
 
 import { postEvent } from '../services/backendAPI/event';
 
-export const useLoginForm = (): {
+export const useAddEventForm = (): {
   date: string;
   handleDate: (e: string) => void;
   content: string;
   handleContent: (p: string) => void;
-  nextEventID: string;
-  handleNextEventID: (p: string) => void;
-  submitAddEvent: (h: any) => void;
+  nextEventID: number;
+  handleNextEventID: (p: number) => void;
+  submitAddEvent: () => void;
 } => {
   const [date, setDate] = useState<string>('');
   const [content, setContent] = useState<string>('');
-  const [nextEventID, setNextEventID] = useState<string>('');
+  const [nextEventID, setNextEventID] = useState<number>(0);
   const reduxState = useSelector(state => state);
   const dispatch = useDispatch();
   const handleDate = (e: string) => {
@@ -28,13 +28,13 @@ export const useLoginForm = (): {
   const handleContent = (p: string) => {
     setContent(p);
   };
-  const handleNextEventID = (p: string) => {
-    setNextEventID(p);
+  const handleNextEventID = (n: number) => {
+    setNextEventID(n);
   };
 
-  const submitAddEvent = async (history: any) => {
+  const submitAddEvent = async () => {
     try {
-      await postEvent({ date, content, nextEventID });
+      await postEvent({ date, content, nextEventID: String(nextEventID) });
     } catch {
       /* エラーハンドリング未実装*/
     }

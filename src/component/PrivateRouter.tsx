@@ -22,25 +22,25 @@ const PrivateRoute = ({
   const [isLogined, setIsLogined] = useState(false);
 
   const loginUserState = useSelector((state: ConbineState) => state.loginUser);
-
+  console.log(options);
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
-      console.log('call onAuthStateChanged');
       if (user) {
-        console.log(user);
-        // dispatch(setLoginUserState.succeed({ uid: user.uid }));
+        console.log('logined');
         setIsLogined(true);
       } else {
         console.log('not logined');
-
         setIsLogined(false);
       }
       setAuthChecked(true);
     });
   }, []);
-
+  // component={isLogined ? RouteComponent : Login}
   return authChecked ? (
-    <Route {...options} component={isLogined ? RouteComponent : Login} />
+    <Route
+      {...options}
+      render={() => (isLogined ? <RouteComponent /> : <Login />)}
+    />
   ) : (
     <div>loading</div>
   );

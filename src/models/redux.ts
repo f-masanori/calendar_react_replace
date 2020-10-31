@@ -7,13 +7,14 @@ export interface LoginUserState {
 }
 export interface CalendarEventsState {
   events: CalendarEvent[];
+  nextEventID: number;
   isLoading: boolean;
   error?: any;
 }
 export interface CalendarEvent {
-  id: number | undefined;
+  id: string | undefined;
   title: string | undefined;
-  date: string | undefined;
+  start: string | undefined;
   backgroundColor: string | undefined;
   borderColor: string | undefined;
   textColor: string | undefined;

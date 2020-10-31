@@ -1,6 +1,19 @@
 import { rejects } from 'assert';
 import firebase from '../firebase/firebase';
 
+export interface FetchEvents {
+  Events: {
+    BackgroundColor: string;
+    BorderColor: string;
+    Date: string;
+    Event: string;
+    EventID: number;
+    ID: number;
+    TextColor: string;
+    UID: string;
+  }[];
+  NextEventID: number;
+}
 const APIURL = 'http://localhost:8080';
 export const registerUser = ({
   email,
@@ -33,7 +46,7 @@ export const registerUser = ({
   });
 };
 
-export const getAllEventByAPI = (): Promise<any> => {
+export const getAllEventByAPI = (): Promise<FetchEvents | any> => {
   return new Promise(resolve => {
     firebase
       .auth()
@@ -47,7 +60,7 @@ export const getAllEventByAPI = (): Promise<any> => {
           },
         })
           .then(response => response.json())
-          .then(data => {
+          .then((data: FetchEvents) => {
             resolve(data);
             console.log(data);
           });
