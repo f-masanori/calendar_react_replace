@@ -30,13 +30,13 @@ export interface PreEvents {
   }[];
   nextEventID: number;
 }
+// props制御する
 const Calendar = (p: any): JSX.Element => {
   /* [dayGridPlugin, interactionPlugin]この制御するとエラーになる(時間ある時整形) */
   const [calendarPlugins, setCalendarPlugins] = useState([
     dayGridPlugin,
     interactionPlugin,
   ]);
-  console.log(p);
   const {
     date,
     handleDate,
@@ -47,8 +47,6 @@ const Calendar = (p: any): JSX.Element => {
     handleNextEventID,
   } = useAddEventForm();
   const [modalStatus, setModalStatus] = useState<boolean>(false);
-  const [caleEvents, setCaleEvents] = useState([]);
-  const [onClickedDate, setOnClickedDate] = useState('');
   const calendarEvents = useSelector(
     (state: ConbineState) => state.calendarEvents,
   );
@@ -60,22 +58,12 @@ const Calendar = (p: any): JSX.Element => {
     (async () => {
       const datas = await getAllEventByAPI();
       handleNextEventID(datas.NextEventID);
-      setCaleEvents(datas.Events);
       dispatch(getAllEvent.start());
     })();
   }, []);
   const openModalForAddEvent = (props: any) => {
     handleDate(props.dateStr);
-    setOnClickedDate(props.dateStr);
     openModal();
-  };
-  const [events, setEvents] = useState([{ title: 'ggg', date: '2020-10-07' }]);
-  const handleSubmitForAdd = async (e: any) => {
-    submitAddEvent();
-    e.preventDefault();
-  };
-  const test = (e: any) => {
-    console.log(calendarEvents.events);
   };
 
   return (
@@ -91,8 +79,7 @@ const Calendar = (p: any): JSX.Element => {
             value={content}
             onChange={e => handleContent(e.target.value)}
           />
-          <Button onClick={handleSubmitForAdd}>Submit</Button>
-          <Button onClick={test}>test</Button>
+          <Button onClick={(e: any) => submitAddEvent()}>Submit</Button>
         </Form.Field>
       </NomalModal>
       <FullCalendar

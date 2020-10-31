@@ -20,9 +20,7 @@ const PrivateRoute = ({
   const dispatch = useDispatch();
   const [authChecked, setAuthChecked] = useState(false);
   const [isLogined, setIsLogined] = useState(false);
-
   const loginUserState = useSelector((state: ConbineState) => state.loginUser);
-  console.log(options);
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {

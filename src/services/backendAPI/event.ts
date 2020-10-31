@@ -23,7 +23,6 @@ export const registerUser = ({
   uid: string;
 }) => {
   return new Promise((resolve, reject) => {
-    console.log(uid, email);
     fetch(`${APIURL}/user`, {
       method: 'POST',
       headers: {
@@ -62,7 +61,6 @@ export const getAllEventByAPI = (): Promise<FetchEvents | any> => {
           .then(response => response.json())
           .then((data: FetchEvents) => {
             resolve(data);
-            console.log(data);
           });
       });
   });
