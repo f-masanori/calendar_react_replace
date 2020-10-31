@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Header as SemHeader, Icon, Segment } from 'semantic-ui-react';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Button from 'react-bootstrap/Button';
+
 import styledComponents from './header-styles';
-import { Button } from '../atoms/buttons';
+// import { Button } from '../atoms/buttons';
 import { ConbineState } from '../../reducer/index';
 import { signOut } from '../../actionCreaters/authentication';
 import firebase from '../../services/firebase/firebase';
@@ -25,55 +29,47 @@ const Header: React.FC<HeaderProps> = props => {
     }
   }, [UID]);
 
-  return isLogined ? (
-    <Segment clearing>
-      <SemHeader as="h2">
-        <Icon name="settings" />
-        <SemHeader.Content>
-          CALENDAR
-          <SemHeader.Subheader>Manage your plan</SemHeader.Subheader>
-        </SemHeader.Content>
-
-        <HeaderItem theme={{ column: '2 / 3' }} />
-        <HeaderItem theme={{ column: '3 / 4' }}>
-          <Button onClick={e => history.push('/calendar')}>calendar</Button>
-        </HeaderItem>
-      </SemHeader>
-      <SemHeader floated="left">
-        s
-        <HeaderItem theme={{ column: '5 / 6' }}>
-          <Button
-            onClick={e => {
-              dispatch(signOut.start());
-              history.push('/login');
-            }}
-          >
-            signout
-          </Button>
-        </HeaderItem>
-      </SemHeader>
-    </Segment>
-  ) : (
-    <HeaderGrid>
-      <HeaderItem theme={{ column: '2 / 3' }} />
-      <HeaderItem theme={{ column: '3 / 4' }}>
-        <Button onClick={e => history.push('/calendar')}>calendar</Button>
-      </HeaderItem>
-      <HeaderItem theme={{ column: '4 / 5' }}>
-        <Button onClick={e => history.push('/signup')}>signup</Button>
-      </HeaderItem>
-      <HeaderItem theme={{ column: '5 / 6' }}>
-        <Button onClick={e => history.push('/login')}>login</Button>
-        <Button
-          onClick={e => {
-            dispatch(signOut.start());
-            history.push('/login');
-          }}
-        >
-          signout
-        </Button>
-      </HeaderItem>
-    </HeaderGrid>
+  return (
+    <Navbar bg="light" expand="lg">
+      <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="mr-auto">
+          <Nav.Link href="#home">Home</Nav.Link>
+          <Nav.Link href="#link">Link</Nav.Link>
+        </Nav>
+      </Navbar.Collapse>
+      <Navbar.Collapse className="justify-content-end">
+        {isLogined ? (
+          <>
+            <Button onClick={e => history.push('/calendar')}>calendar</Button>
+            <Button
+              onClick={e => {
+                dispatch(signOut.start());
+                history.push('/login');
+              }}
+            >
+              signout
+            </Button>
+            <Navbar.Text>
+              Signed in as: <a href="#">{UID}</a>
+            </Navbar.Text>
+          </>
+        ) : (
+          <>
+            <Button onClick={e => history.push('/login')}>login</Button>
+            <Button
+              onClick={e => {
+                dispatch(signOut.start());
+                history.push('/login');
+              }}
+            >
+              signout
+            </Button>
+          </>
+        )}
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 

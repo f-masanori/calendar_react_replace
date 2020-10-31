@@ -13,6 +13,7 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 import reducer from './reducer/index';
 import rootSaga from './sagas';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const sagaMiddleWare = createSagaMiddleware();
 const store = createStore(reducer, applyMiddleware(sagaMiddleWare));
