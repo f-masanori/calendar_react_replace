@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../actionCreaters/authentication';
 import { firebaseLogin } from '../services/firebase/authentication/authentication';
-
+import { CalendarEvent } from '../models/redux';
 import { postEvent } from '../services/backendAPI/event';
 
 export const useAddEventForm = (): {
@@ -13,6 +13,8 @@ export const useAddEventForm = (): {
   nextEventID: number;
   handleNextEventID: (p: number) => void;
   submitAddEvent: () => void;
+  addedEventForCliant: (e: CalendarEvent[]) => CalendarEvent[];
+  newEvent: () => CalendarEvent;
 } => {
   const [date, setDate] = useState<string>('');
   const [content, setContent] = useState<string>('');
@@ -35,9 +37,33 @@ export const useAddEventForm = (): {
   const submitAddEvent = async () => {
     try {
       await postEvent({ date, content, nextEventID: String(nextEventID) });
-    } catch {
+    } catch (err) {
       /* エラーハンドリング未実装*/
+      console.error(err);
     }
+  };
+  const newEvent = (): CalendarEvent => ({
+    id: String(nextEventID + 1),
+    title: content,
+    start: date,
+    backgroundColor: '',
+    borderColor: '',
+    textColor: '',
+  });
+  const addedEventForCliant = (e: CalendarEvent[]): CalendarEvent[] => {
+    const r = [
+      ...e,
+      {
+        id: String(nextEventID + 1),
+        title: content,
+        start: date,
+        backgroundColor: '',
+        borderColor: '',
+        textColor: '',
+      },
+    ];
+
+    return r;
   };
 
   return {
@@ -48,5 +74,7 @@ export const useAddEventForm = (): {
     submitAddEvent,
     nextEventID,
     handleNextEventID,
+    addedEventForCliant,
+    newEvent,
   };
 };

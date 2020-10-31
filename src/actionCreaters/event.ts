@@ -1,5 +1,5 @@
 import * as actions from './actions';
-import { CalendarEventsState } from '../models/redux';
+import { CalendarEventsState, CalendarEvent } from '../models/redux';
 
 export const getAllEvent = {
   start: () => ({
@@ -17,8 +17,11 @@ export const getAllEvent = {
     error: true,
   }),
 };
-
+export const addEvents = (event: CalendarEvent) => {
+  return { type: actions.ADD_EVENTS, payload: { event } };
+};
 export type EventAction =
   | ReturnType<typeof getAllEvent.start>
   | ReturnType<typeof getAllEvent.succeed>
-  | ReturnType<typeof getAllEvent.fail>;
+  | ReturnType<typeof getAllEvent.fail>
+  | ReturnType<typeof addEvents>;

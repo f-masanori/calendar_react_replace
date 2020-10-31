@@ -17,7 +17,7 @@ import {
 } from '../../services/backendAPI/event';
 import { useAddEventForm } from '../../hooks/useAddEventForm';
 import { ConbineState } from '../../reducer/index';
-import { getAllEvent } from '../../actionCreaters/event';
+import { getAllEvent, addEvents } from '../../actionCreaters/event';
 
 export interface PreEvents {
   events: {
@@ -45,6 +45,8 @@ const Calendar = (p: any): JSX.Element => {
     submitAddEvent,
     nextEventID,
     handleNextEventID,
+    addedEventForCliant,
+    newEvent,
   } = useAddEventForm();
   const [modalStatus, setModalStatus] = useState<boolean>(false);
   const calendarEvents = useSelector(
@@ -61,9 +63,10 @@ const Calendar = (p: any): JSX.Element => {
       dispatch(getAllEvent.start());
     })();
   }, []);
+
   const openModalForAddEvent = (props: any) => {
     handleDate(props.dateStr);
-    openModal();
+    setModalStatus(true);
   };
 
   return (
@@ -79,7 +82,17 @@ const Calendar = (p: any): JSX.Element => {
             value={content}
             onChange={e => handleContent(e.target.value)}
           />
-          <Button onClick={(e: any) => submitAddEvent()}>Submit</Button>
+          <Button
+            onClick={(e: any) => {
+              submitAddEvent();
+              const ne = newEvent();
+              dispatch(addEvents(ne));
+              setModalStatus(false);
+              handleContent('');
+            }}
+          >
+            Submit
+          </Button>
         </Form.Field>
       </NomalModal>
       <FullCalendar

@@ -4,7 +4,7 @@ import {
   AuthenticationAction,
   confirmLogind,
 } from '../actionCreaters/authentication';
-import { getAllEvent, EventAction } from '../actionCreaters/event';
+import { getAllEvent, EventAction, addEvents } from '../actionCreaters/event';
 import * as actions from '../actionCreaters/actions';
 import { CalendarEventsState } from '../models/redux';
 
@@ -36,6 +36,16 @@ export const EventReducer: Reducer<CalendarEventsState, EventAction> = (
       return {
         ...state,
         isLoading: false,
+      };
+    case actions.ADD_EVENTS:
+      console.log('reducer ADD_EVENTS');
+
+      return {
+        ...state,
+        events: [
+          ...state.events,
+          (action as ReturnType<typeof addEvents>).payload.event,
+        ],
       };
 
     default: {
