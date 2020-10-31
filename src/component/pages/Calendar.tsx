@@ -22,27 +22,29 @@ const Calendar = (): JSX.Element => {
     interactionPlugin,
   ]);
   const [modalStatus, setModalStatus] = useState<boolean>(false);
-  const modalChild: JSX.Element = <div>modeal</div>;
+  const [caleEvents, setCaleEvents] = useState([]);
+  const [onClickedDate, setOnClickedDate] = useState("");
+
   const openModal = () => {
     setModalStatus(true);
-    console.log(1);
   };
   useEffect(() => {
     (async () => {
-      const events = await getAllEventByAPI();
-      console.log(events);
+      const datas = await getAllEventByAPI();
+      console.log(datas.Events);
     })();
+    setCaleEvents([]);
 
     console.log('useEffect end');
   }, []);
   const openModalForAddEvent = (props: any) => {
     const date = props.dateStr;
+    setOnClickedDate(props.dateStr)
     openModal();
-    setEvents([]);
   };
   const [events, setEvents] = useState([{ title: 'ggg', date: '2020-10-07' }]);
   const handleSubmitForAdd = async (e: any) => {
-    await postEvent(1);
+    await postEvent({nextEventID:2,date:onClickedDate,content:});
     e.preventDefault();
   };
 
@@ -67,7 +69,7 @@ const Calendar = (): JSX.Element => {
           openModalForAddEvent(info);
           console.log(info);
         }}
-        events={events}
+        events={caleEvents}
         // eventClick={(info) => { editEvent(info) }}
       />
     </>

@@ -33,7 +33,7 @@ export const registerUser = ({
   });
 };
 
-export const getAllEventByAPI = (): Promise<unknown> => {
+export const getAllEventByAPI = (): Promise<any> => {
   return new Promise(resolve => {
     firebase
       .auth()
@@ -77,7 +77,15 @@ export const getNextEventID = (): Promise<unknown> => {
   });
 };
 
-export const postEvent = (_nextEventID: number): Promise<unknown> => {
+export const postEvent = ({
+  nextEventID,
+  date,
+  content,
+}: {
+  nextEventID: string;
+  date: string;
+  content: string;
+}): Promise<unknown> => {
   return new Promise(resolve => {
     firebase
       .auth()
@@ -90,9 +98,9 @@ export const postEvent = (_nextEventID: number): Promise<unknown> => {
             Authorization: idToken,
           },
           body: JSON.stringify({
-            EventID: String(_nextEventID),
-            Date: '20201010',
-            InputEvent: 'input',
+            EventID: String(nextEventID),
+            Date: date,
+            InputEvent: content,
           }),
         })
           .then(response => response.json())
