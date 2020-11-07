@@ -64,13 +64,13 @@ const Calendar = (p: any): JSX.Element => {
     setIsLoading(false);
   }, []);
 
-  const openModalForAddEvent = (props: any) => {
-    setOnClickedDate(props.dateStr);
-    handleDate(props.dateStr);
+  const openModalForAddEvent = (info: any) => {
+    setOnClickedDate(info.dateStr);
+    handleDate(info.dateStr);
     setModalStatus(true);
   };
   const openModalForEditEvent = (info: any) => {
-    console.log(info.event.id);
+    setOnClickedDate(info.event.startStr);
     setEditEventModalStatus(true);
   };
 
@@ -94,18 +94,19 @@ const Calendar = (p: any): JSX.Element => {
             <Button
               onClick={async (e: any) => {
                 try {
+                  setIsLoading(true);
                   const isError = await submitAddEvent();
                   console.log(isError);
                   if (isError === null) {
                     const ne = newEvent();
                     dispatch(addEvents(ne));
-                    console.log('ww');
                   }
                 } catch (err) {
                   alert('正しくイベントが追加されませんでした');
                 } finally {
                   setModalStatus(false);
                   handleContent('');
+                  setIsLoading(false);
                 }
               }}
               variant="outline-primary"
@@ -121,7 +122,6 @@ const Calendar = (p: any): JSX.Element => {
         selectMirror
         dateClick={info => {
           openModalForAddEvent(info);
-          console.log(info);
         }}
         events={calendarEvents.events}
         eventClick={info => {
@@ -132,14 +132,16 @@ const Calendar = (p: any): JSX.Element => {
         isOpen={editEventModalStatus}
         onClick={openEditEventModal}
         closeModal={() => setEditEventModalStatus(false)}
-        title="編集"
+        title={`${onClickedDate}の予定を編集`}
       >
         <Form.Field>
-          <Input
-            value={content}
-            onChange={e => handleContent(e.target.value)}
-          />
-          イベント変更UI作成 編集
+          <div style={{ marginBottom: '10px' }}>
+            <Input
+              value={content}
+              onChange={e => handleContent(e.target.value)}
+            />
+          </div>
+          未実装　編集
         </Form.Field>
       </NomalModal>
     </>

@@ -39,7 +39,6 @@ export const useAddEventForm = (): {
       (async () => {
         try {
           console.log('isError');
-
           const isError = await postEvent({
             date,
             content,
@@ -48,8 +47,6 @@ export const useAddEventForm = (): {
           console.log(isError);
           resolve(null);
         } catch (err) {
-          /* エラーハンドリング未実装
-          エラー時にアラートしてそのイベントを削除しないといけない*/
           console.log(err);
           reject(err);
         }
