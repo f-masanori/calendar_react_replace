@@ -74,7 +74,7 @@ export const LoginUserReducer: Reducer<LoginUserState, AuthenticationAction> = (
 
       return {
         ...state,
-        isLoading: false,
+        isLoading: true,
       };
     case actions.SIGNOUT_SUCCEED:
       console.log('reducer SIGNOUT_SUCCEED');

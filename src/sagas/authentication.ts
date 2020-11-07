@@ -23,15 +23,9 @@ export function* runLogin(action: ReturnType<typeof login.start>) {
       email,
       password,
     });
-    console.log(fUser);
-
-    localStorage.setItem('uid', fUser.uid);
-    console.log('localStorage.setItem(, fUser.uid);');
-
     yield put(login.succeed({ uid: fUser.uid }));
   } catch (error) {
     console.error(error);
-
     yield put(login.fail({ err: 1 }, error));
   }
 }
@@ -44,20 +38,15 @@ export function* runSignUp(action: ReturnType<typeof signUp.start>) {
       email,
       password,
     });
-    console.log(fUser.uid);
-
     yield call(registerUser, {
       email,
       uid: fUser.uid,
     });
-    localStorage.setItem('uid', fUser.uid);
     yield put(signUp.succeed({ uid: fUser.uid }));
-    console.error('runSignUp try ');
   } catch (error) {
     console.error(error);
-    console.error('signup エラー');
     alert('signup エラー');
-
+    window.location.reload();
     yield call(firebaseDeleteCurrentUser);
     yield put(signUp.fail({ err: 1 }, error));
   }
@@ -66,9 +55,9 @@ export function* runSignUp(action: ReturnType<typeof signUp.start>) {
 export function* runSignOut(action: ReturnType<typeof signUp.start>) {
   try {
     console.log('runSignOut');
-    const flag = yield call(firebaseSignOut);
-    localStorage.setItem('uid', '');
+    yield call(firebaseSignOut);
     yield put(signOut.succeed());
+    window.location.reload();
   } catch (error) {
     console.error(error);
     yield put(signOut.fail(error));

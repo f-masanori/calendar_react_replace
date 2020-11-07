@@ -15,22 +15,23 @@ import firebase from '../../services/firebase/firebase';
 const HeaderGrid = styledComponents.LayoutStyles.Header.Grid;
 const HeaderItem = styledComponents.LayoutStyles.Header.Item;
 interface HeaderProps {
-  UID: string;
+  uid: string;
+  email: string;
 }
 
 const Header: React.FC<HeaderProps> = props => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isLogined, setIsLogined] = useState(false);
-  const { UID } = props;
+  const { uid, email } = props;
   useEffect(() => {
-    if (UID !== '' && UID !== 'noUser') {
+    if (uid !== '' && uid !== 'noUser') {
       setIsLogined(true);
     }
-  }, [UID]);
+  }, [uid]);
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="md">
       <Navbar.Brand>カレンダー</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
@@ -47,29 +48,44 @@ const Header: React.FC<HeaderProps> = props => {
       <Navbar.Collapse className="justify-content-end">
         {isLogined ? (
           <>
-            <Button onClick={e => history.push('/calendar')}>calendar</Button>
+            <Navbar.Text>
+              Signed in as: <a href="#">{email}</a>
+            </Navbar.Text>
             <Button
+              variant="outline-info"
+              onClick={e => history.push('/calendar')}
+              size="sm"
+            >
+              calendar
+            </Button>
+            <Button
+              variant="outline-info"
+              size="sm"
               onClick={e => {
                 dispatch(signOut.start());
                 history.push('/login');
               }}
             >
-              signout
+              SignOut
             </Button>
-            <Navbar.Text>
-              Signed in as: <a href="#">{UID}</a>
-            </Navbar.Text>
           </>
         ) : (
           <>
-            <Button onClick={e => history.push('/login')}>login</Button>
+            <Button
+              onClick={e => history.push('/login')}
+              variant="outline-info"
+              size="sm"
+            >
+              ログイン
+            </Button>
             <Button
               onClick={e => {
-                dispatch(signOut.start());
-                history.push('/login');
+                history.push('/signup');
               }}
+              variant="outline-info"
+              size="sm"
             >
-              signout
+              登録する
             </Button>
           </>
         )}

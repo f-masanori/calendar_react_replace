@@ -23,6 +23,10 @@ const customStyles: any = {
     width: '50%'
     // transform: 'translate(-50%,-50%)',
   },
+
+  modaltitlecontainer: {
+    marginBottom: '30px',
+  },
 };
 Modal.setAppElement('#root');
 type Props = {
@@ -62,7 +66,10 @@ export const NomalModal: React.FC<Props> = ({
       >
         ✖️
       </label>
-      <h2>{title}</h2>
+      <div style={customStyles.modaltitlecontainer}>
+        <h3>{title}</h3>
+      </div>
+
       {children}
     </Modal>
   );

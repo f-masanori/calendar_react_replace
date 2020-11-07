@@ -1,8 +1,9 @@
 これはReactとTypescriptの勉強のために開発しているカレンダーアプリのフロントエンドです。[以前](https://github.com/f-masanori/calendar_react)も同じ目的でカレンダーアプリを開発していたのですが、ひどいコードだったので、こちらに書き直しています。
 
-サーバーサイドは[こちら](https://github.com/f-masanori/calendar_app)
 
 # setup
+注意:[サーバーサイド](https://github.com/f-masanori/calendar_app_backend)の開発サーバーを立ち上げていないとエラーが発生します。
+
 ## firebase
 
 プロジェクトのルートディレクトリで以下のコマンドを実行し、`.firebase.env`が作成されたことを確認
@@ -12,8 +13,9 @@ $ make firebase.env
 
 1. firebase project作成
 2. firebase app作成
-3. 認証に必要なキーを取得
-4. `.firebase.env`のそれぞれの値に３で取得したキー等を入力
+3. firebase authenticationのメールアドレスによる認証をオンにする。
+4. 認証に必要なキーを取得
+5. `.firebase.env`のそれぞれの値に３で取得したキー等を入力
 
 
 _____________
@@ -46,9 +48,10 @@ _____________
 1. まずは機能を完成させる
 2. ライブラリを使わずに、カレンダー部分のUIを実装してみたい(CSSの学習)
 
+### 課題・考えること
+1. プルリクは途中からごちゃごちゃになってしまった
+
 ### ESlint,prettierについて
 
 ESlint、prettierの設定については、[りあクト！ TypeScriptで始めるつらくないReact開発 第2版](https://booth.pm/ja/items/1312652)を参考
-
-
 

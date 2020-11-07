@@ -96,8 +96,8 @@ export const postEvent = ({
   nextEventID: string;
   date: string;
   content: string;
-}): Promise<unknown> => {
-  return new Promise(resolve => {
+}): Promise<any> => {
+  return new Promise((resolve, reject) => {
     firebase
       .auth()
       .currentUser?.getIdToken(true)
@@ -118,6 +118,11 @@ export const postEvent = ({
           .then(data => {
             resolve(data);
             console.log(data);
+          })
+          .catch(e => {
+            console.log('apiイベント追加エラー');
+            console.log(e);
+            reject(e);
           });
       });
   });

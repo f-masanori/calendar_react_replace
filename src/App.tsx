@@ -15,28 +15,23 @@ import firebase from './services/firebase/firebase';
 import PrivateRoute from './component/PrivateRouter';
 import { setLoginUserState } from './actionCreaters/authentication';
 import Header from './component/organisms/Header';
-import {
-  firebaseLogin,
-  firebaseSignUp,
-  firebaseSignOut,
-  isFBLogined,
-  firebaseDeleteCurrentUser,
-} from './services/firebase/authentication/authentication';
 
 const App = () => {
   const loginUserState = useSelector((state: ConbineState) => state.loginUser);
   const dispatch = useDispatch();
   const [isVerified, setIsVerified] = useState(false);
   const [isLogined, setIsLogined] = useState(false);
-  const UID = useSelector((state: ConbineState) => state.loginUser.uid);
+  const { uid } = loginUserState;
+  const [email, setEmail] = useState<any>('');
 
   useEffect(() => {
     console.log('priveate router useeffect');
-    if (UID === '') {
+    if (uid === '') {
       firebase.auth().onAuthStateChanged(User => {
         console.log('call onAuthStateChanged');
         if (User) {
           console.log('logined');
+          setEmail(User.email);
           dispatch(
             setLoginUserState.succeed({
               uid: User.uid,
@@ -50,15 +45,15 @@ const App = () => {
             }),
           );
         }
-        setIsVerified(true);
+        setIsLogined(false);
       });
     }
   }, []);
 
   return (
     <>
-      <Header UID={UID} />
-      {/* {loginUserState.isLoading && <LoadingScreen />} */}
+      <Header uid={uid} email={email} />
+      {isLogined && <LoadingScreen />}
       <Switch>
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={SignUp} />

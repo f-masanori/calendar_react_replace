@@ -15,7 +15,6 @@ export const useLoginForm = (): {
   const reduxState = useSelector(state => state);
   const dispatch = useDispatch();
   const handleEmail = (e: string) => {
-    console.log(e);
     /* バリデーション未実装 */
     setEmail(e);
   };
@@ -28,7 +27,6 @@ export const useLoginForm = (): {
     dispatch(login.start({ email, password }));
     try {
       const uid = await firebaseLogin({ email, password });
-      console.log(uid);
       history.push('/calendar');
     } catch {
       /* エラーハンドリング未実装*/

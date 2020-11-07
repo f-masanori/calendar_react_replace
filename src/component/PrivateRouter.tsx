@@ -9,6 +9,7 @@ import {
 } from '../actionCreaters/authentication';
 import { isFBLogined } from '../services/firebase/authentication/authentication';
 import firebase from '../services/firebase/firebase';
+import { LoadingScreen } from './organisms/Loading';
 
 const PrivateRoute = ({
   component: RouteComponent,
@@ -40,7 +41,7 @@ const PrivateRoute = ({
       render={() => (isLogined ? <RouteComponent /> : <Login />)}
     />
   ) : (
-    <div>loading</div>
+    <LoadingScreen />
   );
 };
 

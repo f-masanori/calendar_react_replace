@@ -53,6 +53,7 @@ const SignUp = (): JSX.Element => {
 
   return (
     <Container>
+      <p>SignUp</p>
       <Form onSubmit={submitForm}>
         <Form.Field>
           <p>Email</p>

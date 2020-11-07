@@ -12,7 +12,7 @@ export const useAddEventForm = (): {
   handleContent: (p: string) => void;
   nextEventID: number;
   handleNextEventID: (p: number) => void;
-  submitAddEvent: () => void;
+  submitAddEvent: () => Promise<any>;
   addedEventForCliant: (e: CalendarEvent[]) => CalendarEvent[];
   newEvent: () => CalendarEvent;
 } => {
@@ -34,13 +34,27 @@ export const useAddEventForm = (): {
     setNextEventID(n);
   };
 
-  const submitAddEvent = async () => {
-    try {
-      await postEvent({ date, content, nextEventID: String(nextEventID) });
-    } catch (err) {
-      /* エラーハンドリング未実装*/
-      console.error(err);
-    }
+  const submitAddEvent = (): Promise<any> => {
+    return new Promise<any>((resolve, reject) => {
+      (async () => {
+        try {
+          console.log('isError');
+
+          const isError = await postEvent({
+            date,
+            content,
+            nextEventID: String(nextEventID),
+          });
+          console.log(isError);
+          resolve(null);
+        } catch (err) {
+          /* エラーハンドリング未実装
+          エラー時にアラートしてそのイベントを削除しないといけない*/
+          console.log(err);
+          reject(err);
+        }
+      })();
+    });
   };
   const newEvent = (): CalendarEvent => ({
     id: String(nextEventID + 1),
