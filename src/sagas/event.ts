@@ -14,6 +14,8 @@ export function* runGetAllEvent(action: ReturnType<typeof getAllEvent.start>) {
     const forReducer = convFetchedDtoPreD(data);
     yield put(getAllEvent.succeed(forReducer));
   } catch (error) {
+    alert('イベント受信エラー');
+    console.log(error);
     yield put(getAllEvent.fail({ err: 1 }, error));
   }
 }

@@ -17,6 +17,8 @@ import {
   getAllEventByAPI,
 } from '../../services/backendAPI/event';
 import { useAddEventForm } from '../../hooks/useAddEventForm';
+import { useEditEventForm } from '../../hooks/useEditEventForm';
+
 import { ConbineState } from '../../reducer/index';
 import { getAllEvent, addEvents } from '../../actionCreaters/event';
 import { LoadingScreen } from '../organisms/Loading';
@@ -38,6 +40,13 @@ const Calendar = (p: any): JSX.Element => {
     addedEventForCliant,
     newEvent,
   } = useAddEventForm();
+  const {
+    editedEvent,
+    setEditedEvent,
+    handleEditedEvent,
+    submitEditEvent,
+    editedEventForCliant,
+  } = useEditEventForm();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [modalStatus, setModalStatus] = useState<boolean>(false);
@@ -142,6 +151,28 @@ const Calendar = (p: any): JSX.Element => {
             />
           </div>
           未実装　編集
+          <Button
+            // onClick={async (e: any) => {
+            //   try {
+            //     setIsLoading(true);
+            //     const isError = await submitAddEvent();
+            //     console.log(isError);
+            //     if (isError === null) {
+            //       const ne = newEvent();
+            //       dispatch(addEvents(ne));
+            //     }
+            //   } catch (err) {
+            //     alert('正しくイベントが追加されませんでした');
+            //   } finally {
+            //     setModalStatus(false);
+            //     handleContent('');
+            //     setIsLoading(false);
+            //   }
+            // }}
+            variant="outline-primary"
+          >
+            編集
+          </Button>
         </Form.Field>
       </NomalModal>
     </>

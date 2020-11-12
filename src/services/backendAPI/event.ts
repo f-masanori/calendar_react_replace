@@ -1,5 +1,6 @@
 import { rejects } from 'assert';
 import firebase from '../firebase/firebase';
+import { CalendarEvent } from '../../models/redux';
 
 export interface FetchEvents {
   Events: {
@@ -14,7 +15,9 @@ export interface FetchEvents {
   }[];
   NextEventID: number;
 }
+
 const APIURL = 'http://localhost:8080';
+
 export const registerUser = ({
   email,
   uid,
@@ -83,6 +86,11 @@ export const getNextEventID = (): Promise<unknown> => {
           .then(data => {
             console.log(data);
             resolve(data);
+          })
+          .catch(e => {
+            console.log('nextEventID取得追加エラー');
+            console.log(e);
+            reject(e);
           });
       });
   });
@@ -121,6 +129,39 @@ export const postEvent = ({
           })
           .catch(e => {
             console.log('apiイベント追加エラー');
+            console.log(e);
+            reject(e);
+          });
+      });
+  });
+};
+
+export const editEvent = (calendarEvent: CalendarEvent): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    firebase
+      .auth()
+      .currentUser?.getIdToken(true)
+      .then((idToken: any) => {
+        fetch(`${APIURL}/event/${calendarEvent.id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: idToken,
+          },
+          body: JSON.stringify({
+            CalendarEvent: calendarEvent.title,
+            BackgroundColor: calendarEvent.backgroundColor,
+            BorderColor: calendarEvent.borderColor,
+            TextColor: calendarEvent.textColor,
+          }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            resolve(data);
+            console.log(data);
+          })
+          .catch(e => {
+            console.log('apiイベント編集エラー');
             console.log(e);
             reject(e);
           });
