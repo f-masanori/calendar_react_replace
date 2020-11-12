@@ -6,19 +6,24 @@
 
 ## firebase
 
-プロジェクトのルートディレクトリで以下のコマンドを実行し、`.firebase.env`が作成されたことを確認
-```
-$ make firebase.env
-```
+プロジェクトのルートディレクトリで`$ make firebase.config`コマンドを実行し、`./src/config/fbConfig.ts`が作成されることを確認。その後以下の手順でfirebaseの設定をする。
 
 1. firebase project作成
 2. firebase app作成
 3. firebase authenticationのメールアドレスによる認証をオンにする。
 4. 認証に必要なキーを取得
-5. `.firebase.env`のそれぞれの値に３で取得したキー等を入力
+5. `./src/config/fbConfig.ts`のそれぞれの値に３で取得したキー等を入力
+
+### 実行
+
+1. プロジェクトのルートディレクトリで`$ npm i`コマンドを実行し必要なパッケージをインストール
+
+2. `$ PORT=4000 npm start`で任意のポート番号を開いて開発用サーバー実行
+
+___________________________
 
 
-_____________
+
 ### 使用技術
 
 - 言語 : Typescript

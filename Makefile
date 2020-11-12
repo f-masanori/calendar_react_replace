@@ -1,2 +1,2 @@
-firebase.env:
-	cp .firebase.env.example .firebase.env
+firebase.config:
+	cp ./src/config/example.fbConfig.ts ./src/config/2fbConfig.ts
